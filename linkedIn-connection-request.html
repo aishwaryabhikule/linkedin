@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect on LinkedIn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .animate-scale-in {
+            animation: scaleIn 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        .animate-fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+        
+        .custom-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <!-- Connection Preview Card -->
+            <div class="bg-white rounded-lg custom-shadow overflow-hidden animate-scale-in transition-all duration-300">
+                <div class="p-6 pb-0">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 rounded-full overflow-hidden mr-3 bg-gray-100">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3fbe6428-7241-4efb-946c-7840a6c871ed.png" alt="Professional headshot of Alex Chen, a marketing specialist with short dark hair and bright smile wearing business casual clothing in an office setting" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\" fill=\"%23CBD5E0\"><rect width=\"100\" height=\"100\" rx=\"50\" fill=\"%23E2E8F0\"/></svg>'">
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-gray-900">Alex Chen</h2>
+                                <p class="text-sm text-gray-500">Marketing Specialist | Brand Strategy</p>
+                                <p class="text-xs text-gray-400 mt-1">
+                                    <span>123+ connections</span>
+                                    <span class="mx-1">·</span>
+                                    <span>2 mutual connections</span>
+                                </p>
+                            </div>
+                        </div>
+                        <button id="closeBtn" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-6 pt-0">
+                    <!-- Connection Input Section -->
+                    <div class="mb-4 animate-fade-in" id="messageSection">
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">
+                            Add a note (optional)
+                            <span class="text-gray-400 font-normal">Only you can see this</span>
+                        </label>
+                        <textarea 
+                            id="message" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                            rows="3" 
+                            placeholder="Add a personal message to introduce yourself"
+                        ></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Maximum 300 characters recommended</p>
+                        <div class="text-right">
+                            <span id="charCount" class="text-xs font-medium">0/300</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col space-y-3 animate-fade-in" style="animation-delay: 0.1s">
+                        <button id="connectBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            <span>Connect</span>
+                        </button>
+                        <button id="cancelBtn" class="w-full border border-gray-300 hover:border-gray-400 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Success State (Hidden Initially) -->
+            <div id="successCard" class="hidden bg-white rounded-lg custom-shadow p-6 text-center animate-scale-in">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Request Sent Successfully!</h3>
+                <p class="text-sm text-gray-500">
+                    Your invitation to connect with <span class="font-medium">Alex Chen</span> has been delivered.
+                    You'll receive a notification when they accept your request.
+                </p>
+                <div class="mt-6">
+                    <button id="doneBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                        Done
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageInput = document.getElementById('message');
+            const charCount = document.getElementById('charCount');
+            const connectBtn = document.getElementById('connectBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const successCard = document.getElementById('successCard');
+            const mainCard = document.querySelector('.bg-white.rounded-lg.custom-shadow');
+            
+            // Character counter for message
+            messageInput.addEventListener('input', function() {
+                const count = this.value.length;
+                charCount.textContent = `${count}/300`;
+                
+                if (count > 300) {
+                    charCount.classList.add('text-red-500');
+                } else {
+                    charCount.classList.remove('text-red-500');
+                }
+            });
+            
+            // Simulate connection request
+            connectBtn.addEventListener('click', function() {
+                // Show loading state
+                connectBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                `;
+                connectBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    mainCard.classList.add('hidden');
+                    successCard.classList.remove('hidden');
+                    connectBtn.disabled = false;
+                    connectBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span>Connect</span>
+                    `;
+                }, 1500);
+            });
+            
+            // Close the card
+            closeBtn.addEventListener('click', function() {
+                document.querySelector('.min-h-screen').classList.add('animate-fade-out');
+                setTimeout(() => {
+                    alert('Connection request closed');
+                }, 300);
+            });
+            
+            cancelBtn.addEventListener('click', closeBtn.click);
+            
+            // Done button in success state
+            document.getElementById('doneBtn').addEventListener('click', function() {
+                alert('Connection flow completed');
+            });
+        });
+    </script>
+</body>
+</html>
+
